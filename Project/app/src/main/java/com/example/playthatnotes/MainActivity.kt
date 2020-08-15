@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleAnswer(note: Note, button: View, event: MotionEvent): Boolean {
-        audioManager.reproduceSound(note)
         var color = Color.GREEN
         if (presenter.evaluateAnswer(note, currentNote)) {
             correctCount ++
@@ -110,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                audioManager.reproduceSound(note)
                 button.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 button.invalidate()
             }
