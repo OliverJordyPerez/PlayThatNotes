@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         currentNote = note
         when (note) {
             Note.C5 -> positionNoteTo(firstLowerExtraLine)
-            Note.D5 -> print("Add first lower extra space")
+            Note.D5 -> positionNoteTo(firstLowerSpace)
             Note.E5 -> positionNoteTo(firstLine)
             Note.F5 -> positionNoteTo(firstSpace)
             Note.G5 -> positionNoteTo(secondLine)
@@ -77,8 +77,9 @@ class MainActivity : AppCompatActivity() {
             Note.D6 -> positionNoteTo(forthLine)
             Note.E6 -> positionNoteTo(forthSpace)
             Note.F6 -> positionNoteTo(fifthLine)
-            Note.G6, Note.A6 -> print("Add first lower extra space")
-            Note.B6 -> print("Add first lower extra space")
+            Note.G6 -> positionNoteTo(firstUpperSpace)
+            Note.A6 -> positionNoteTo(firstUpperExtraLine)
+            Note.B6 -> positionNoteTo(secondUpperSpace)
         }
     }
 

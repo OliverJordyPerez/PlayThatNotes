@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        android:background="#8000BCD4"
+        android:background="#0000BCD4"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/forthLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,11 +20,51 @@
         app:layout_constraintTop_toBottomOf="@+id/fifthLine" />
 
     <View
+        android:id="@+id/firstUpperSpace"
+        android:layout_width="409dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:background="#0000BCD4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fifthLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstUpperExtraLine" />
+
+    <View
+        android:id="@+id/firstLowerSpace"
+        android:layout_width="409dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:background="#0000BCD4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/firstLowerExtraLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstLine" />
+
+    <View
+        android:id="@+id/secondUpperSpace"
+        android:layout_width="409dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="120dp"
+        android:background="#0000BCD4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/firstUpperExtraLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
         android:id="@+id/thirdSpace"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        android:background="#80FF9800"
+        android:background="#00FF9800"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/thirdLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        android:background="#8C4FFF3B"
+        android:background="#004FFF3B"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/secondLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,12 +90,12 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="195dp"
+        android:layout_marginTop="26dp"
         android:background="#000000"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/firstUpperExtraLine" />
 
     <View
         android:id="@+id/forthLine"
@@ -112,7 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        android:background="#8CFFEB3B"
+        android:background="#00FFEB3B"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/firstLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -133,26 +173,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstLine" />
 
+    <View
+        android:id="@+id/firstUpperExtraLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:background="#00000000"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondUpperSpace" />
+
     <ImageView
         android:id="@+id/noteImg"
         android:layout_width="87dp"
         android:layout_height="90dp"
-        android:layout_marginEnd="116dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="8dp"
         android:background="#00FFFFFF"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="@+id/secondLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/noteup" />
-
-    <ImageView
-        android:id="@+id/trebleClef"
-        android:layout_width="166dp"
-        android:layout_height="266dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/trebleclef"
-        android:contentDescription="TODO" />
 
     <LinearLayout
         android:layout_width="409dp"
