@@ -1,5 +1,7 @@
 package com.example.playthatnotes
 
+import android.graphics.Color
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,34 +11,133 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var currentNote: Note? = null
+    private var correctCount = 0
+    private var wrongCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setNote(generateRandomNote())
         setButtonListeners()
+        updateScore()
     }
 
     private fun setButtonListeners() {
-        cButton.setOnClickListener { handleAnswer(note = Note.C5) }
-        dButton.setOnClickListener { handleAnswer(note = Note.D5) }
-        eButton.setOnClickListener { handleAnswer(note = Note.E5) }
-        fButton.setOnClickListener { handleAnswer(note = Note.F5) }
-        gButton.setOnClickListener { handleAnswer(note = Note.G5) }
-        aButton.setOnClickListener { handleAnswer(note = Note.A5) }
-        bButton.setOnClickListener { handleAnswer(note = Note.B5) }
+        cButton.setOnClickListener {
+            reproduceSound(Note.C5)
+            handleAnswer(note = Note.C5)
+        }
+        dButton.setOnClickListener {
+            reproduceSound(Note.D5)
+            handleAnswer(note = Note.D5)
+        }
+        eButton.setOnClickListener {
+            reproduceSound(Note.E5)
+            handleAnswer(note = Note.E5)
+        }
+        fButton.setOnClickListener {
+            reproduceSound(Note.F5)
+            handleAnswer(note = Note.F5)
+        }
+        gButton.setOnClickListener {
+            reproduceSound(Note.G5)
+            handleAnswer(note = Note.G5)
+        }
+        aButton.setOnClickListener {
+            reproduceSound(Note.A5)
+            handleAnswer(note = Note.A5)
+        }
+        bButton.setOnClickListener {
+            reproduceSound(Note.B5)
+            handleAnswer(note = Note.B5)
+        }
     }
 
     private fun generateRandomNote(): Note {
-        return Note.values().toList().shuffled().first()
+        val randomNote = Note.values().toList().shuffled().first()
+        return if (randomNote == this.currentNote) {
+            generateRandomNote()
+        } else {
+            randomNote
+        }
     }
 
     private fun handleAnswer(note: Note) {
         if (evaluateAnswer(note)) {
+            correctCount ++
             setNote(generateRandomNote())
+            showFeedbackColor(note, color = Color.GREEN)
         } else {
-            // TODO: Handle error
+            wrongCount ++
+            showFeedbackColor(note, color = Color.RED)
         }
+        updateScore()
+    }
+
+    private fun showFeedbackColor(note: Note, color: Int) {
+        when (note) {
+            Note.C5, Note.C6 -> cButton.setBackgroundColor(color)
+            Note.D5, Note.D6 -> dButton.setBackgroundColor(color)
+            Note.E5, Note.E6 -> eButton.setBackgroundColor(color)
+            Note.F5, Note.F6 -> fButton.setBackgroundColor(color)
+            Note.G5, Note.G6 -> gButton.setBackgroundColor(color)
+            Note.A5, Note.A6 -> aButton.setBackgroundColor(color)
+            Note.B5, Note.B6 -> bButton.setBackgroundColor(color)
+        }
+    }
+
+    private fun updateScore() {
+        correctScore.text = "Correct: $correctCount"
+        wrongScore.text = "Wrong: $wrongCount"
+    }
+
+    private fun reproduceSound(note: Note) {
+        lateinit var mediaPlayer: MediaPlayer
+        when (note) {
+            Note.C5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.do5)
+            }
+            Note.D5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.re5)
+            }
+            Note.E5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.mi5)
+            }
+            Note.F5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.fa5)
+            }
+            Note.G5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.sol5)
+            }
+            Note.A5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.la5)
+            }
+            Note.B5 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.si5)
+            }
+            Note.C6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.do5)
+            }
+            Note.D6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.re5)
+            }
+            Note.E6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.mi5)
+            }
+            Note.F6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.fa5)
+            }
+            Note.G6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.sol5)
+            }
+            Note.A6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.la5)
+            }
+            Note.B6 -> {
+                mediaPlayer = MediaPlayer.create(this, R.raw.si5)
+            }
+        }
+        mediaPlayer.start()
     }
 
     private fun evaluateAnswer(note: Note): Boolean {
@@ -126,15 +227,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleExtraLinesVisibility(bottom: Boolean = false, top: Boolean = false) {
-        if (bottom) {
-            firstLowerExtraLine.visibility = View.VISIBLE
-            firstUpperExtraLine.visibility = View.INVISIBLE
-        } else if (top) {
-            firstUpperExtraLine.visibility = View.VISIBLE
-            firstLowerExtraLine.visibility = View.INVISIBLE
-        } else {
-            firstLowerExtraLine.visibility = View.INVISIBLE
-            firstUpperExtraLine.visibility = View.INVISIBLE
+        when {
+            bottom -> {
+                firstLowerExtraLine.visibility = View.VISIBLE
+                firstUpperExtraLine.visibility = View.INVISIBLE
+            }
+            top -> {
+                firstUpperExtraLine.visibility = View.VISIBLE
+                firstLowerExtraLine.visibility = View.INVISIBLE
+            }
+            else -> {
+                firstLowerExtraLine.visibility = View.INVISIBLE
+                firstUpperExtraLine.visibility = View.INVISIBLE
+            }
         }
     }
 
