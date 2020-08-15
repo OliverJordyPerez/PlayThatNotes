@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var currentNote: Note
+    private var currentNote: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,22 +64,77 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNote(note: Note) {
-        currentNote = note
+        this.currentNote = note
         when (note) {
-            Note.C5 -> positionNoteTo(firstLowerExtraLine)
-            Note.D5 -> positionNoteTo(firstLowerSpace)
-            Note.E5 -> positionNoteTo(firstLine)
-            Note.F5 -> positionNoteTo(firstSpace)
-            Note.G5 -> positionNoteTo(secondLine)
-            Note.A5 -> positionNoteTo(secondSpace)
-            Note.B5 -> positionNoteTo(thirdLine)
-            Note.C6 -> positionNoteTo(thirdSpace)
-            Note.D6 -> positionNoteTo(forthLine)
-            Note.E6 -> positionNoteTo(forthSpace)
-            Note.F6 -> positionNoteTo(fifthLine)
-            Note.G6 -> positionNoteTo(firstUpperSpace)
-            Note.A6 -> positionNoteTo(firstUpperExtraLine)
-            Note.B6 -> positionNoteTo(secondUpperSpace)
+            Note.C5 -> {
+                toggleExtraLinesVisibility(bottom = true)
+                positionNoteTo(firstLowerExtraLine)
+            }
+            Note.D5 -> {
+                toggleExtraLinesVisibility(bottom = true)
+                positionNoteTo(firstLowerSpace)
+            }
+            Note.E5 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(firstLine)
+            }
+            Note.F5 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(firstSpace)
+            }
+            Note.G5 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(secondLine)
+            }
+            Note.A5 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(secondSpace)
+            }
+            Note.B5 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(thirdLine)
+            }
+            Note.C6 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(thirdSpace)
+            }
+            Note.D6 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(forthLine)
+            }
+            Note.E6 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(forthSpace)
+            }
+            Note.F6 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(fifthLine)
+            }
+            Note.G6 -> {
+                toggleExtraLinesVisibility()
+                positionNoteTo(firstUpperSpace)
+            }
+            Note.A6 -> {
+                toggleExtraLinesVisibility(top = true)
+                positionNoteTo(firstUpperExtraLine)
+            }
+            Note.B6 -> {
+                toggleExtraLinesVisibility(top = true)
+                positionNoteTo(secondUpperSpace)
+            }
+        }
+    }
+
+    private fun toggleExtraLinesVisibility(bottom: Boolean = false, top: Boolean = false) {
+        if (bottom) {
+            firstLowerExtraLine.visibility = View.VISIBLE
+            firstUpperExtraLine.visibility = View.INVISIBLE
+        } else if (top) {
+            firstUpperExtraLine.visibility = View.VISIBLE
+            firstLowerExtraLine.visibility = View.INVISIBLE
+        } else {
+            firstLowerExtraLine.visibility = View.INVISIBLE
+            firstUpperExtraLine.visibility = View.INVISIBLE
         }
     }
 
@@ -87,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         val params = noteImg.layoutParams as ConstraintLayout.LayoutParams
         params.leftToRight = line.id
         params.topToTop = line.id
-        params.bottomMargin = 160
+        params.bottomMargin = 0
         params.bottomToBottom = line.id
         noteImg.requestLayout()
     }
