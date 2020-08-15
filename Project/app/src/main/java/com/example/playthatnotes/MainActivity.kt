@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -14,12 +16,51 @@ class MainActivity : AppCompatActivity() {
     private var correctCount = 0
     private var wrongCount = 0
 
+    private var gameStarted = false
+
+    lateinit var countDownTimer: CountDownTimer
+    var initialCountDown: Long = 10000
+    var countDownInterval: Long = 1000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setNote(generateRandomNote())
         setButtonListeners()
+        resetGame()
+        startGame()
+    }
+
+    private fun startGame() {
+        countDownTimer.start()
+        gameStarted = true
+    }
+
+    private fun endGame() {
+        Toast.makeText(this, "Your had ${correctCount} correct and ${wrongCount} failed. Keep practicing if you want to be a musical genius", Toast.LENGTH_LONG).show()
+        resetGame()
+    }
+
+    private fun resetGame() {
+        correctCount = 0
+        wrongCount = 0
+
         updateScore()
+
+        val initialTimeLeft = initialCountDown / 1000
+        timeLeftLabel.text = "Time left: ${initialTimeLeft}s"
+
+        countDownTimer = object  : CountDownTimer(initialCountDown, countDownInterval) {
+            override fun onTick(millisUntilFinished: Long) {
+               val timeLeft = millisUntilFinished / 1000
+                timeLeftLabel.text = "Time left: ${timeLeft}s"
+            }
+
+            override fun onFinish() {
+                endGame()
+            }
+        }
+        gameStarted = false
     }
 
     private fun setButtonListeners() {
@@ -66,10 +107,10 @@ class MainActivity : AppCompatActivity() {
         if (evaluateAnswer(note)) {
             correctCount ++
             setNote(generateRandomNote())
-            showFeedbackColor(note, color = Color.GREEN)
+//            showFeedbackColor(note, color = Color.GREEN)
         } else {
             wrongCount ++
-            showFeedbackColor(note, color = Color.RED)
+//            showFeedbackColor(note, color = Color.RED)
         }
         updateScore()
     }
