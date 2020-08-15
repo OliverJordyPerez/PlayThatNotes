@@ -1,16 +1,24 @@
 package com.example.playthatnotes
 
+import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    var presenter = MainActivityPresenter()
+    val audioManager = AudioManager(this)
 
     private var currentNote: Note? = null
     private var correctCount = 0
@@ -19,13 +27,13 @@ class MainActivity : AppCompatActivity() {
     private var gameStarted = false
 
     lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 10000
+    var initialCountDown: Long = 60000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setNote(generateRandomNote())
+        setNote(presenter.generateRandomNote(currentNote))
         setButtonListeners()
         resetGame()
         startGame()
@@ -63,146 +71,60 @@ class MainActivity : AppCompatActivity() {
         gameStarted = false
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setButtonListeners() {
-        cButton.setOnClickListener {
-            reproduceSound(Note.C5)
-            handleAnswer(note = Note.C5)
+        cButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.C5, view, event)
         }
-        dButton.setOnClickListener {
-            reproduceSound(Note.D5)
-            handleAnswer(note = Note.D5)
+
+        dButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.D5, view, event)
         }
-        eButton.setOnClickListener {
-            reproduceSound(Note.E5)
-            handleAnswer(note = Note.E5)
+        eButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.E5, view, event)
         }
-        fButton.setOnClickListener {
-            reproduceSound(Note.F5)
-            handleAnswer(note = Note.F5)
+        fButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.F5, view, event)
         }
-        gButton.setOnClickListener {
-            reproduceSound(Note.G5)
-            handleAnswer(note = Note.G5)
+        gButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.G5, view, event)
         }
-        aButton.setOnClickListener {
-            reproduceSound(Note.A5)
-            handleAnswer(note = Note.A5)
+        aButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.A5, view, event)
         }
-        bButton.setOnClickListener {
-            reproduceSound(Note.B5)
-            handleAnswer(note = Note.B5)
+        bButton.setOnTouchListener { view, event ->
+            handleAnswer(Note.B5, view, event)
         }
     }
 
-    private fun generateRandomNote(): Note {
-        val randomNote = Note.values().toList().shuffled().first()
-        return if (randomNote == this.currentNote) {
-            generateRandomNote()
-        } else {
-            randomNote
-        }
-    }
-
-    private fun handleAnswer(note: Note) {
-        if (evaluateAnswer(note)) {
+    private fun handleAnswer(note: Note, button: View, event: MotionEvent): Boolean {
+        audioManager.reproduceSound(note)
+        var color = Color.GREEN
+        if (presenter.evaluateAnswer(note, currentNote)) {
             correctCount ++
-            setNote(generateRandomNote())
-//            showFeedbackColor(note, color = Color.GREEN)
+            setNote(presenter.generateRandomNote(currentNote))
         } else {
             wrongCount ++
-//            showFeedbackColor(note, color = Color.RED)
+            color = Color.RED
+        }
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                button.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                button.invalidate()
+            }
+            MotionEvent.ACTION_UP -> {
+                button.background.clearColorFilter()
+                button.invalidate()
+            }
         }
         updateScore()
-    }
-
-    private fun showFeedbackColor(note: Note, color: Int) {
-        when (note) {
-            Note.C5, Note.C6 -> cButton.setBackgroundColor(color)
-            Note.D5, Note.D6 -> dButton.setBackgroundColor(color)
-            Note.E5, Note.E6 -> eButton.setBackgroundColor(color)
-            Note.F5, Note.F6 -> fButton.setBackgroundColor(color)
-            Note.G5, Note.G6 -> gButton.setBackgroundColor(color)
-            Note.A5, Note.A6 -> aButton.setBackgroundColor(color)
-            Note.B5, Note.B6 -> bButton.setBackgroundColor(color)
-        }
+        return false
     }
 
     private fun updateScore() {
         correctScore.text = "Correct: $correctCount"
         wrongScore.text = "Wrong: $wrongCount"
-    }
-
-    private fun reproduceSound(note: Note) {
-        lateinit var mediaPlayer: MediaPlayer
-        when (note) {
-            Note.C5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.do5)
-            }
-            Note.D5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.re5)
-            }
-            Note.E5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.mi5)
-            }
-            Note.F5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.fa5)
-            }
-            Note.G5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.sol5)
-            }
-            Note.A5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.la5)
-            }
-            Note.B5 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.si5)
-            }
-            Note.C6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.do5)
-            }
-            Note.D6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.re5)
-            }
-            Note.E6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.mi5)
-            }
-            Note.F6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.fa5)
-            }
-            Note.G6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.sol5)
-            }
-            Note.A6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.la5)
-            }
-            Note.B6 -> {
-                mediaPlayer = MediaPlayer.create(this, R.raw.si5)
-            }
-        }
-        mediaPlayer.start()
-    }
-
-    private fun evaluateAnswer(note: Note): Boolean {
-        if (currentNote == note) {
-            return true
-        } else {
-            when (note) {
-                Note.C5 -> return currentNote == Note.C6
-                Note.D5 -> return currentNote == Note.D6
-                Note.E5 -> return currentNote == Note.E6
-                Note.F5 -> return currentNote == Note.F6
-                Note.G5 -> return currentNote == Note.G6
-                Note.A5 -> return currentNote == Note.A6
-                Note.B5 -> return currentNote == Note.B6
-                Note.C6 -> return currentNote == Note.C5
-                Note.D6 -> return currentNote == Note.D5
-                Note.E6 -> return currentNote == Note.E5
-                Note.F6 -> return currentNote == Note.F5
-                Note.G6 -> return currentNote == Note.G5
-                Note.A6 -> return currentNote == Note.A5
-                Note.B6 -> return currentNote == Note.B5
-            }
-            return false
-        }
     }
 
     private fun setNote(note: Note) {
@@ -292,8 +214,4 @@ class MainActivity : AppCompatActivity() {
         params.bottomToBottom = line.id
         noteImg.requestLayout()
     }
-}
-
-enum class Note {
-    C5, D5, E5, F5, G5, A5, B5, C6, D6, E6, F6, G6, A6, B6
 }
