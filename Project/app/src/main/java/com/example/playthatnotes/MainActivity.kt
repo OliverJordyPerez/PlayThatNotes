@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                 button.invalidate()
             }
             MotionEvent.ACTION_UP -> {
+                audioManager.stopSound()
                 button.background.clearColorFilter()
                 button.invalidate()
             }

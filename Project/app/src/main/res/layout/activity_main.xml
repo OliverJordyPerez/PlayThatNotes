@@ -194,10 +194,14 @@
         app:srcCompat="@drawable/pngfind_com_mozart_png_4694953" />
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="200dp"
+        android:id="@+id/TopButtons"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -232,6 +236,18 @@
             android:layout_weight="1"
             android:soundEffectsEnabled="false"
             android:text="F" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/TopButtons"
+        app:layout_constraintStart_toStartOf="@+id/TopButtons">
 
         <Button
             android:id="@+id/gButton"

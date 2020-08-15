@@ -4,8 +4,9 @@ import android.content.Context
 import android.media.MediaPlayer
 
 class AudioManager(private val context: Context) {
+    private var mediaPlayer: MediaPlayer? = null
+
     fun reproduceSound(note: Note) {
-        lateinit var mediaPlayer: MediaPlayer
         when (note) {
             Note.C5 -> {
                 mediaPlayer = MediaPlayer.create(context, R.raw.do5)
@@ -50,6 +51,10 @@ class AudioManager(private val context: Context) {
                 mediaPlayer = MediaPlayer.create(context, R.raw.si5)
             }
         }
-        mediaPlayer.start()
+        mediaPlayer?.start()
+    }
+
+    fun stopSound() {
+        mediaPlayer?.stop()
     }
 }
