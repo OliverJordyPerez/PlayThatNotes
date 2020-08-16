@@ -1,6 +1,32 @@
-package com.example.playthatnotes
+package com.example.playthatnotes.main
+
+import com.example.playthatnotes.helpers.Note
 
 class MainActivityPresenter {
+
+    fun getFinalMessage(correctNotes: Int, wrongNotes: Int): String {
+        return if (correctNotes >= 60 && wrongNotes == 0) {
+            "You are a musical genius. But you always can be better. So keep practicing"
+        } else if(correctNotes < 60 && wrongNotes == 0) {
+            "Not fast enough. You should keep practicing if you really want to become a musical genius."
+        } else {
+            "You made some mistakes. You should keep practicing if you really want to become a musical genius"
+        }
+    }
+
+    fun getFinalTempo(correctNotes: Int, wrongNotes: Int): String =
+        if (correctNotes + wrongNotes >= 80) {
+            "Your tempo: Prestissimo"
+        } else if(correctNotes + wrongNotes >= 60) {
+            "Your tempo: Presto"
+        } else if(correctNotes + wrongNotes >= 40) {
+            "Your tempo: Allegro"
+        } else if(correctNotes + wrongNotes >= 20) {
+            "Your tempo: Lento"
+        } else {
+            "Your tempo: Larghissimo"
+        }
+
     fun generateRandomNote(currentNote: Note?): Note {
         val randomNote = Note.values().toList().shuffled().first()
         return if (randomNote == currentNote) {

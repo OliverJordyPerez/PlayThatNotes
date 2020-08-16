@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <View
         android:id="@+id/forthSpace"
@@ -311,5 +311,15 @@
         android:text="Wrong: 3"
         app:layout_constraintStart_toStartOf="@+id/correctScore"
         app:layout_constraintTop_toBottomOf="@+id/correctScore" />
+
+    <Button
+        android:id="@+id/mainStartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintBottom_toTopOf="@+id/TopButtons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstLowerSpace" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

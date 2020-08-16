@@ -1,19 +1,25 @@
-package com.example.playthatnotes
+package com.example.playthatnotes.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.playthatnotes.helpers.AudioManager
+import com.example.playthatnotes.helpers.Note
+import com.example.playthatnotes.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_game_over.*
+import kotlinx.android.synthetic.main.dialog_game_over.view.*
+
+const val CORRECT_COUNT = "correctCount"
+const val WRONG_COUNT = "wrongCount"
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,29 +33,51 @@ class MainActivity : AppCompatActivity() {
     private var gameStarted = false
 
     lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 60000
+    var initialCountDown: Long = 2000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setNote(presenter.generateRandomNote(currentNote))
-        setButtonListeners()
+        setNoteButtonsListeners()
         resetGame()
-        startGame()
+        mainStartButton.setOnClickListener {
+            startGame()
+        }
     }
 
     private fun startGame() {
+        mainStartButton.visibility = View.INVISIBLE
+        noteImg.visibility = View.VISIBLE
         countDownTimer.start()
         gameStarted = true
     }
 
     private fun endGame() {
-        Toast.makeText(this, "Your had ${correctCount} correct and ${wrongCount} failed. Keep practicing if you want to be a musical genius", Toast.LENGTH_LONG).show()
-        resetGame()
+        mainStartButton.visibility = View.INVISIBLE
+        showGameOverDialog()
+    }
+
+    private fun showGameOverDialog() {
+        val dialog = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_game_over, null)
+        dialog.setView(dialogView)
+        dialog.setCancelable(false)
+        dialog.setPositiveButton("Close") { _, _ ->
+            resetGame()
+        }
+        dialogView.finalCorrectLabel.text = correctScore.text
+        dialogView.finalWrong.text = wrongScore.text
+        dialogView.quoteLabel.text = presenter.getFinalMessage(correctCount, wrongCount)
+        dialogView.yourTempo.text = presenter.getFinalTempo(correctCount, wrongCount)
+        dialog.show()
     }
 
     private fun resetGame() {
+        toggleExtraLinesVisibility()
+        mainStartButton.visibility = View.VISIBLE
+        noteImg.visibility = View.INVISIBLE
         correctCount = 0
         wrongCount = 0
 
@@ -72,11 +100,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setButtonListeners() {
+    private fun setNoteButtonsListeners() {
         cButton.setOnTouchListener { view, event ->
             handleAnswer(Note.C5, view, event)
         }
-
         dButton.setOnTouchListener { view, event ->
             handleAnswer(Note.D5, view, event)
         }
