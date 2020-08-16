@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var gameStarted = false
 
     lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 2000
+    var initialCountDown: Long = 60000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         dialogView.finalWrong.text = wrongScore.text
         dialogView.quoteLabel.text = presenter.getFinalMessage(correctCount, wrongCount)
         dialogView.yourTempo.text = presenter.getFinalTempo(correctCount, wrongCount)
+        dialogView.musicalGeniusScore.text = presenter.getMusicalGeniusScore(correctCount, wrongCount)
         dialog.show()
     }
 

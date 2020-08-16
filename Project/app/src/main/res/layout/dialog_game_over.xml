@@ -13,33 +13,21 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourTempo"
+        app:layout_constraintTop_toBottomOf="@+id/musicalGeniusScore"
         app:srcCompat="@drawable/pngfind_com_mozart_png_4694953" />
-
-    <TextView
-        android:id="@+id/quoteLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="32dp"
-        android:text="You are a musical genius, but you can always do it better, so keep practicing."
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/finalCorrectLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Correct notes: 55"
         android:textColor="#4CAF50"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/gameOverLabel" />
 
     <TextView
         android:id="@+id/finalWrong"
@@ -48,7 +36,7 @@
         android:layout_marginTop="8dp"
         android:text="Wrong notes: 5"
         android:textColor="#F44336"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/finalCorrectLabel"
         app:layout_constraintStart_toStartOf="@+id/finalCorrectLabel"
         app:layout_constraintTop_toBottomOf="@+id/finalCorrectLabel" />
@@ -60,9 +48,53 @@
         android:layout_marginTop="16dp"
         android:text="Your tempo: Allegro"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/finalWrong"
         app:layout_constraintStart_toStartOf="@+id/finalWrong"
         app:layout_constraintTop_toBottomOf="@+id/finalWrong" />
+
+    <TextView
+        android:id="@+id/musicalGeniusScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="Musical genius score: 50%"
+        android:textColor="#9C27B0"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/yourTempo"
+        app:layout_constraintStart_toStartOf="@+id/yourTempo"
+        app:layout_constraintTop_toBottomOf="@+id/yourTempo" />
+
+    <TextView
+        android:id="@+id/gameOverLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:text="Game Over"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView">
+
+        <TextView
+            android:id="@+id/quoteLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="You are a musical genius, but you can always do it better, so keep practicing."
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

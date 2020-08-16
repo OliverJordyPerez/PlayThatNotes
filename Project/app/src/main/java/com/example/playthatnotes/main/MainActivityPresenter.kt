@@ -10,7 +10,7 @@ class MainActivityPresenter {
         } else if(correctNotes < 60 && wrongNotes == 0) {
             "Not fast enough. You should keep practicing if you really want to become a musical genius."
         } else {
-            "You made some mistakes. You should keep practicing if you really want to become a musical genius"
+            "You made mistakes. You should keep practicing if you really want to become a musical genius"
         }
     }
 
@@ -35,6 +35,8 @@ class MainActivityPresenter {
             randomNote
         }
     }
+
+    fun getMusicalGeniusScore(correctNotes: Int, wrongNotes: Int): String = "Musical genius score: ${(correctNotes - wrongNotes) / 6000}%"
 
     fun evaluateAnswer(note: Note, currentNote: Note?): Boolean {
         if (currentNote == note) {
