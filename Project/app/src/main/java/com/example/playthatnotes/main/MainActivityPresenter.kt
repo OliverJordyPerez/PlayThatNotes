@@ -56,7 +56,7 @@ class MainActivityPresenter {
         if (score < 0) {
             score = 0.0
         }
-        return "Musical genius: ${score.round(2) }%"
+        return "Genius score: ${score.round(2) }%"
     }
 
     fun evaluateAnswer(note: Note, currentNote: Note?): Boolean {

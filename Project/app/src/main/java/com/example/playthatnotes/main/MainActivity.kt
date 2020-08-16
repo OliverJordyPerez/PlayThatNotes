@@ -1,6 +1,7 @@
 package com.example.playthatnotes.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -8,16 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.playthatnotes.helpers.AudioManager
 import com.example.playthatnotes.helpers.Note
 import com.example.playthatnotes.R
 import com.example.playthatnotes.helpers.Clef
+import com.example.playthatnotes.model.MapPrefs
+import com.example.playthatnotes.settings.CLEF_CLANGED
 import com.example.playthatnotes.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_game_over.*
 import kotlinx.android.synthetic.main.dialog_game_over.view.*
 
 const val CORRECT_COUNT = "correctCount"
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     var presenter = MainActivityPresenter()
     val audioManager by lazy { AudioManager(this) }
-    val isBassClef = false
+    private var isBassClef = MapPrefs.getGameClefMode() == Clef.BASS
 
     private var currentNote: Note? = null
     private var correctCount = 0
@@ -35,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private var gameStarted = false
 
-    lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 10000
+    var countDownTimer: CountDownTimer? = null
+    var initialCountDown: Long = 60000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,18 +49,12 @@ class MainActivity : AppCompatActivity() {
         mainStartButton.setOnClickListener {
             startGame()
         }
-        if (isBassClef) {
-            clefImage.setImageResource(R.drawable.bass_clef)
-            setClefOffset(Clef.BASS)
-        } else {
-            clefImage.setImageResource(R.drawable.g_cleff)
-        }
     }
 
     private fun setClefOffset(clef: Clef) {
-        when(clef) {
+        when (clef) {
             Clef.BASS -> positionClef(90)
-            Clef.TREBLE -> positionClef(0)
+            Clef.TREBLE -> positionClef(-20)
         }
     }
 
@@ -70,15 +65,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, 0)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                val clefChanged = data?.getBooleanExtra(CLEF_CLANGED, false) ?: false
+                if (clefChanged) {
+                    resetGame()
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun startGame() {
         mainStartButton.visibility = View.INVISIBLE
         toggleButtonsVisibility(hide = false)
         setNote(presenter.generateRandomNote())
-        countDownTimer.start()
+        countDownTimer?.start()
         gameStarted = true
     }
 
@@ -103,11 +111,23 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    private fun setClef() {
+        isBassClef = MapPrefs.getGameClefMode() == Clef.BASS
+        if (isBassClef) {
+            clefImage.setImageResource(R.drawable.bass_clef)
+            setClefOffset(Clef.BASS)
+        } else {
+            clefImage.setImageResource(R.drawable.g_cleff)
+        }
+    }
+
     private fun resetGame() {
+        setClef()
         toggleExtraLinesVisibility()
         mainStartButton.visibility = View.VISIBLE
         correctCount = 0
         wrongCount = 0
+        countDownTimer?.cancel()
 
         updateScore()
 
@@ -277,7 +297,7 @@ class MainActivity : AppCompatActivity() {
         clefImage.requestLayout()
     }
 
-    fun toggleButtonsVisibility(hide: Boolean) {
+    private fun toggleButtonsVisibility(hide: Boolean) {
         val visibility = if (hide == true) View.INVISIBLE else View.VISIBLE
         noteImg.visibility = visibility
         cButton.visibility = visibility

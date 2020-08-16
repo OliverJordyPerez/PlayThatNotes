@@ -3,11 +3,13 @@ package com.example.playthatnotes.helpers
 import android.content.Context
 import android.media.MediaPlayer
 import com.example.playthatnotes.R
+import com.example.playthatnotes.model.MapPrefs
 
 class AudioManager(private val context: Context) {
     private var mediaPlayer: MediaPlayer? = null
 
     fun reproduceSound(note: Note) {
+        if (!MapPrefs.getSoundToggle()) { return }
         when (note) {
             Note.C5 -> {
                 mediaPlayer = MediaPlayer.create(context,
