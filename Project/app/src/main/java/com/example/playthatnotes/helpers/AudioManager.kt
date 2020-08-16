@@ -10,6 +10,7 @@ class AudioManager(private val context: Context) {
 
     fun reproduceSound(note: Note) {
         if (!MapPrefs.getSoundToggle()) { return }
+        stopSound()
         when (note) {
             Note.C5 -> {
                 mediaPlayer = MediaPlayer.create(context,
@@ -87,5 +88,6 @@ class AudioManager(private val context: Context) {
 
     fun stopSound() {
         mediaPlayer?.stop()
+        mediaPlayer?.release()
     }
 }

@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setClefOffset(clef: Clef) {
         when (clef) {
-            Clef.BASS -> positionClef(110)
-            Clef.TREBLE -> positionClef(160)
+            Clef.BASS -> positionClef(90)
+            Clef.TREBLE -> positionClef(140)
         }
     }
 

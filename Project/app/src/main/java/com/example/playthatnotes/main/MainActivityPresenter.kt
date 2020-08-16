@@ -31,10 +31,9 @@ class MainActivityPresenter {
         }
 
     fun generateRandomNote(currentNote: Note? = null): Note {
-        val absoluteNote = getAbsoluteNote(currentNote)
         val randomNote = Note.values().toList().shuffled().first()
-        return if (getAbsoluteNote(randomNote) == absoluteNote) {
-            generateRandomNote(absoluteNote)
+        return if (randomNote == currentNote) {
+             generateRandomNote(currentNote)
         } else {
             randomNote
         }
