@@ -7,11 +7,11 @@ class MainActivityPresenter {
 
     fun getFinalMessage(correctNotes: Int, wrongNotes: Int): String {
         return if (correctNotes >= 60 && wrongNotes == 0) {
-            "You are a musical genius. But you always can be better. So keep practicing"
+            "You are a musical genius! But you can do it better. Keep practicing!"
         } else if(correctNotes < 60 && wrongNotes == 0) {
-            "Not fast enough. You should keep practicing if you really want to become a musical genius."
+            "Not fast enough. Keep practicing to become a musical genius!"
         } else {
-            "You made mistakes. You should keep practicing if you really want to become a musical genius"
+            "You made mistakes. Keep practicing to become a musical genius!"
         }
     }
 
@@ -52,11 +52,11 @@ class MainActivityPresenter {
     }
 
     fun getMusicalGeniusScore(correctNotes: Int, wrongNotes: Int): String {
-        var score = ((correctNotes - wrongNotes).toDouble() / 60).round(2) * 100.0
+        var score = ((correctNotes - wrongNotes).toDouble() / 60) * 100.0
         if (score < 0) {
             score = 0.0
         }
-        return "Musical genius score: ${score}%"
+        return "Musical genius: ${score.round(2) }%"
     }
 
     fun evaluateAnswer(note: Note, currentNote: Note?): Boolean {

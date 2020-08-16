@@ -314,9 +314,13 @@
 
     <Button
         android:id="@+id/mainStartButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="144dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#8BC34A"
         android:text="Start"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#8BC34A"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/TopButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

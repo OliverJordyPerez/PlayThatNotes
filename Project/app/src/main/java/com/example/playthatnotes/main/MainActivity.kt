@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var gameStarted = false
 
     lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 60000
+    var initialCountDown: Long = 3000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,14 +49,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun startGame() {
         mainStartButton.visibility = View.INVISIBLE
-        noteImg.visibility = View.VISIBLE
+        toggleButtonsVisibility(hide = false)
         setNote(presenter.generateRandomNote())
         countDownTimer.start()
         gameStarted = true
     }
 
     private fun endGame() {
-        mainStartButton.visibility = View.INVISIBLE
         showGameOverDialog()
     }
 
@@ -79,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     private fun resetGame() {
         toggleExtraLinesVisibility()
         mainStartButton.visibility = View.VISIBLE
-        noteImg.visibility = View.INVISIBLE
         correctCount = 0
         wrongCount = 0
 
@@ -99,6 +97,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         gameStarted = false
+        toggleButtonsVisibility(true)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -243,5 +242,17 @@ class MainActivity : AppCompatActivity() {
         params.bottomMargin = 0
         params.bottomToBottom = line.id
         noteImg.requestLayout()
+    }
+
+    fun toggleButtonsVisibility(hide: Boolean) {
+        val visibility = if(hide == true) View.INVISIBLE else View.VISIBLE
+        noteImg.visibility = visibility
+        cButton.visibility = visibility
+        dButton.visibility = visibility
+        eButton.visibility = visibility
+        fButton.visibility = visibility
+        gButton.visibility = visibility
+        aButton.visibility = visibility
+        bButton.visibility = visibility
     }
 }

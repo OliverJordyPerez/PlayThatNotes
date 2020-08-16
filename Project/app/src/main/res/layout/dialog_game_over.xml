@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
     tools:context=".gameoverview.GameOverActivity">
 
     <ImageView
@@ -12,6 +12,9 @@
         android:layout_height="167dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musicalGeniusScore"
         app:srcCompat="@drawable/pngfind_com_mozart_png_4694953" />
@@ -23,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:text="Correct notes: 55"
         android:textColor="#4CAF50"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +39,7 @@
         android:layout_marginTop="8dp"
         android:text="Wrong notes: 5"
         android:textColor="#F44336"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/finalCorrectLabel"
         app:layout_constraintStart_toStartOf="@+id/finalCorrectLabel"
         app:layout_constraintTop_toBottomOf="@+id/finalCorrectLabel" />
@@ -58,13 +61,16 @@
         android:id="@+id/musicalGeniusScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
+        android:layout_marginEnd="16dp"
         android:text="Musical genius score: 50%"
+        android:textAlignment="center"
         android:textColor="#9C27B0"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/yourTempo"
-        app:layout_constraintStart_toStartOf="@+id/yourTempo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourTempo" />
 
     <TextView
@@ -80,10 +86,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
