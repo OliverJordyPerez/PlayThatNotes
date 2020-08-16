@@ -1,6 +1,7 @@
 package com.example.playthatnotes.main
 
 import com.example.playthatnotes.helpers.Note
+import kotlin.math.round
 
 class MainActivityPresenter {
 
@@ -27,16 +28,36 @@ class MainActivityPresenter {
             "Your tempo: Larghissimo"
         }
 
-    fun generateRandomNote(currentNote: Note?): Note {
+    fun generateRandomNote(currentNote: Note? = null): Note {
+        val absoluteNote = getAbsoluteNote(currentNote)
         val randomNote = Note.values().toList().shuffled().first()
-        return if (randomNote == currentNote) {
-            generateRandomNote(currentNote)
+        return if (getAbsoluteNote(randomNote) == absoluteNote) {
+            generateRandomNote(absoluteNote)
         } else {
             randomNote
         }
     }
 
-    fun getMusicalGeniusScore(correctNotes: Int, wrongNotes: Int): String = "Musical genius score: ${(correctNotes - wrongNotes) / 6000}%"
+    private fun getAbsoluteNote(note: Note?): Note? {
+        when(note) {
+            Note.C5, Note.C6 -> return  Note.C5
+            Note.D5, Note.D6 -> return  Note.D5
+            Note.E5, Note.E6 -> return  Note.E5
+            Note.F5, Note.F6 -> return  Note.F5
+            Note.G5, Note.G6 -> return  Note.G5
+            Note.A5, Note.A6 -> return  Note.A5
+            Note.B5, Note.B6 -> return  Note.B5
+        }
+        return null
+    }
+
+    fun getMusicalGeniusScore(correctNotes: Int, wrongNotes: Int): String {
+        var score = ((correctNotes - wrongNotes).toDouble() / 60).round(2) * 100.0
+        if (score < 0) {
+            score = 0.0
+        }
+        return "Musical genius score: ${score}%"
+    }
 
     fun evaluateAnswer(note: Note, currentNote: Note?): Boolean {
         if (currentNote == note) {
@@ -61,4 +82,6 @@ class MainActivityPresenter {
             return false
         }
     }
+
+    fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
 }

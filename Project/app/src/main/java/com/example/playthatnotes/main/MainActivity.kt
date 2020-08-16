@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun startGame() {
         mainStartButton.visibility = View.INVISIBLE
         noteImg.visibility = View.VISIBLE
+        setNote(presenter.generateRandomNote())
         countDownTimer.start()
         gameStarted = true
     }
@@ -127,16 +128,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleAnswer(note: Note, button: View, event: MotionEvent): Boolean {
         var color = Color.GREEN
-        if (presenter.evaluateAnswer(note, currentNote)) {
-            correctCount ++
-            setNote(presenter.generateRandomNote(currentNote))
-        } else {
-            wrongCount ++
-            color = Color.RED
-        }
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                if (presenter.evaluateAnswer(note, currentNote)) {
+                    correctCount ++
+                    setNote(presenter.generateRandomNote(currentNote))
+                } else {
+                    wrongCount ++
+                    color = Color.RED
+                }
                 audioManager.reproduceSound(note)
                 button.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 button.invalidate()
@@ -164,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 positionNoteTo(firstLowerExtraLine)
             }
             Note.D5 -> {
-                toggleExtraLinesVisibility(bottom = true)
+                toggleExtraLinesVisibility()
                 positionNoteTo(firstLowerSpace)
             }
             Note.E5 -> {
