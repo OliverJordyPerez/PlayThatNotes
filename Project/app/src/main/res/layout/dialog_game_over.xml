@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="133dp"
-        android:layout_height="167dp"
+        android:layout_width="93dp"
+        android:layout_height="141dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
@@ -27,6 +27,7 @@
         android:text="Correct notes: 55"
         android:textColor="#4CAF50"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,7 @@
         android:text="Wrong notes: 5"
         android:textColor="#F44336"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/finalCorrectLabel"
         app:layout_constraintStart_toStartOf="@+id/finalCorrectLabel"
         app:layout_constraintTop_toBottomOf="@+id/finalCorrectLabel" />

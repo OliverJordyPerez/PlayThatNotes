@@ -24,7 +24,7 @@ const val WRONG_COUNT = "wrongCount"
 class MainActivity : AppCompatActivity() {
 
     var presenter = MainActivityPresenter()
-    val audioManager = AudioManager(this)
+    val audioManager by lazy { AudioManager(this) }
 
     private var currentNote: Note? = null
     private var correctCount = 0
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var gameStarted = false
 
     lateinit var countDownTimer: CountDownTimer
-    var initialCountDown: Long = 3000
+    var initialCountDown: Long = 10000
     var countDownInterval: Long = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                 button.invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                audioManager.stopSound()
                 button.background.clearColorFilter()
                 button.invalidate()
             }
