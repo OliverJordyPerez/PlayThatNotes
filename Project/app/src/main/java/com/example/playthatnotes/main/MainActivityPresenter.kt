@@ -1,6 +1,8 @@
 package com.example.playthatnotes.main
 
+import com.example.playthatnotes.helpers.Clef
 import com.example.playthatnotes.helpers.Note
+import com.example.playthatnotes.model.MapPrefs
 import kotlin.math.round
 
 class MainActivityPresenter {
@@ -57,6 +59,14 @@ class MainActivityPresenter {
             score = 0.0
         }
         return "Genius score: ${score.round(2) }%"
+    }
+
+    fun getFinalClef(): String {
+        val clef = MapPrefs.getGameClefMode()
+        return when(clef) {
+            Clef.TREBLE -> "Treble clef"
+            Clef.BASS -> "Bass clef"
+        }
     }
 
     fun evaluateAnswer(note: Note, currentNote: Note?): Boolean {

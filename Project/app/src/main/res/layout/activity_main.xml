@@ -314,7 +314,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Wrong: 3"
-        android:textColor="#E91E63"
+        android:textColor="#B3E91E63"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/correctScore"

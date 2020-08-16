@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Musical genius score: 50%"
         android:textAlignment="center"
@@ -73,7 +73,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourTempo" />
+        app:layout_constraintTop_toBottomOf="@+id/clefInfoLabel" />
 
     <TextView
         android:id="@+id/gameOverLabel"
@@ -106,4 +106,17 @@
             android:text="You are a musical genius, but you can always do it better, so keep practicing."
             android:textSize="16sp" />
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/clefInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Treble clef"
+        android:textColor="#9C27B0"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/yourTempo"
+        app:layout_constraintStart_toStartOf="@+id/yourTempo"
+        app:layout_constraintTop_toBottomOf="@+id/yourTempo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

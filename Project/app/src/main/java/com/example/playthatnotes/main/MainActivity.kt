@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setClefOffset(clef: Clef) {
         when (clef) {
-            Clef.BASS -> positionClef(90)
-            Clef.TREBLE -> positionClef(-20)
+            Clef.BASS -> positionClef(110)
+            Clef.TREBLE -> positionClef(160)
         }
     }
 
@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         dialogView.finalWrong.text = wrongScore.text
         dialogView.quoteLabel.text = presenter.getFinalMessage(correctCount, wrongCount)
         dialogView.yourTempo.text = presenter.getFinalTempo(correctCount, wrongCount)
+        dialogView.clefInfoLabel.text = presenter.getFinalClef()
         dialogView.musicalGeniusScore.text =
             presenter.getMusicalGeniusScore(correctCount, wrongCount)
         dialog.show()
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             setClefOffset(Clef.BASS)
         } else {
             clefImage.setImageResource(R.drawable.g_cleff)
+            setClefOffset(Clef.TREBLE)
         }
     }
 
