@@ -7,13 +7,15 @@ import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.playthatnotes.helpers.AudioManager
 import com.example.playthatnotes.helpers.Note
 import com.example.playthatnotes.R
+import com.example.playthatnotes.helpers.Clef
+import com.example.playthatnotes.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_game_over.*
 import kotlinx.android.synthetic.main.dialog_game_over.view.*
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     var presenter = MainActivityPresenter()
     val audioManager by lazy { AudioManager(this) }
+    val isBassClef = false
 
     private var currentNote: Note? = null
     private var correctCount = 0
@@ -45,6 +48,30 @@ class MainActivity : AppCompatActivity() {
         mainStartButton.setOnClickListener {
             startGame()
         }
+        if (isBassClef) {
+            clefImage.setImageResource(R.drawable.bass_clef)
+            setClefOffset(Clef.BASS)
+        } else {
+            clefImage.setImageResource(R.drawable.g_cleff)
+        }
+    }
+
+    private fun setClefOffset(clef: Clef) {
+        when(clef) {
+            Clef.BASS -> positionClef(90)
+            Clef.TREBLE -> positionClef(0)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+        return true
     }
 
     private fun startGame() {
@@ -71,7 +98,8 @@ class MainActivity : AppCompatActivity() {
         dialogView.finalWrong.text = wrongScore.text
         dialogView.quoteLabel.text = presenter.getFinalMessage(correctCount, wrongCount)
         dialogView.yourTempo.text = presenter.getFinalTempo(correctCount, wrongCount)
-        dialogView.musicalGeniusScore.text = presenter.getMusicalGeniusScore(correctCount, wrongCount)
+        dialogView.musicalGeniusScore.text =
+            presenter.getMusicalGeniusScore(correctCount, wrongCount)
         dialog.show()
     }
 
@@ -86,9 +114,9 @@ class MainActivity : AppCompatActivity() {
         val initialTimeLeft = initialCountDown / 1000
         timeLeftLabel.text = "Time left: ${initialTimeLeft}s"
 
-        countDownTimer = object  : CountDownTimer(initialCountDown, countDownInterval) {
+        countDownTimer = object : CountDownTimer(initialCountDown, countDownInterval) {
             override fun onTick(millisUntilFinished: Long) {
-               val timeLeft = millisUntilFinished / 1000
+                val timeLeft = millisUntilFinished / 1000
                 timeLeftLabel.text = "Time left: ${timeLeft}s"
             }
 
@@ -131,10 +159,10 @@ class MainActivity : AppCompatActivity() {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 if (presenter.evaluateAnswer(note, currentNote)) {
-                    correctCount ++
+                    correctCount++
                     setNote(presenter.generateRandomNote(currentNote))
                 } else {
-                    wrongCount ++
+                    wrongCount++
                     color = Color.RED
                 }
                 audioManager.reproduceSound(note)
@@ -156,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNote(note: Note) {
-        this.currentNote = note
+        this.currentNote = if (isBassClef) translateToBassClef(note) else note
         when (note) {
             Note.C5 -> {
                 toggleExtraLinesVisibility(bottom = true)
@@ -243,8 +271,14 @@ class MainActivity : AppCompatActivity() {
         noteImg.requestLayout()
     }
 
+    private fun positionClef(offset: Int) {
+        val params = clefImage.layoutParams as ConstraintLayout.LayoutParams
+        params.topMargin = offset
+        clefImage.requestLayout()
+    }
+
     fun toggleButtonsVisibility(hide: Boolean) {
-        val visibility = if(hide == true) View.INVISIBLE else View.VISIBLE
+        val visibility = if (hide == true) View.INVISIBLE else View.VISIBLE
         noteImg.visibility = visibility
         cButton.visibility = visibility
         dButton.visibility = visibility
@@ -253,5 +287,25 @@ class MainActivity : AppCompatActivity() {
         gButton.visibility = visibility
         aButton.visibility = visibility
         bButton.visibility = visibility
+    }
+
+    private fun translateToBassClef(note: Note): Note {
+        when (note) {
+            Note.C5 -> return Note.E5
+            Note.D5 -> return Note.F5
+            Note.E5 -> return Note.G5
+            Note.F5 -> return Note.A5
+            Note.G5 -> return Note.B5
+            Note.A5 -> return Note.C5
+            Note.B5 -> return Note.D5
+            Note.C6 -> return Note.E6
+            Note.D6 -> return Note.F6
+            Note.E6 -> return Note.G6
+            Note.F6 -> return Note.A6
+            Note.G6 -> return Note.B6
+            Note.A6 -> return Note.C6
+            Note.B6 -> return Note.D6
+        }
+        return Note.C5
     }
 }
